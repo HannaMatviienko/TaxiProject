@@ -33,7 +33,6 @@ public class OrdersCommand implements Command {
             } catch (NumberFormatException ignored) {
                 id = 0;
             }
-            request.setAttribute("userId", id);
 
             int pageCurrent;
             try {
@@ -69,6 +68,7 @@ public class OrdersCommand implements Command {
                 if (page > pageCount)
                     page = 1;
                 request.setAttribute("orders", orderDAO.get(dateFrom, dateTo, userId, page, limit, sort, sortDir));
+                request.setAttribute("userId", id);
                 request.setAttribute("dateFrom", dateFrom);
                 request.setAttribute("dateTo", dateTo);
                 request.setAttribute("pageCurrent", page);
@@ -79,7 +79,6 @@ public class OrdersCommand implements Command {
                 throw new ServletException(ex);
             }
         }
-
         try {
             request.setAttribute("users", DAOFactory.getUser().getUsers());
         } catch (SQLException | ClassNotFoundException ex) {
