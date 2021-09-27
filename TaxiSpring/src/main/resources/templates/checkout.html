@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[[#{checkout.title}]]</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/taxi.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 text-begin">
+            <a href="?lang=ua"
+               th:class="__${#locale}__=='en'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.ua}]]</a>
+            <a href="?lang=en"
+               th:class="__${#locale}__=='ua'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.en}]]</a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a th:href="@{/}" class="nav-link px-2 link-primary">[[#{menu.home}]]</a></li>
+            <li><a th:href="@{/common/service}" class="nav-link px-2 link-dark">[[#{menu.services}]]</a></li>
+            <li><a th:href="@{/common/price}" class="nav-link px-2 link-dark">[[#{menu.pricing}]]</a></li>
+            <li><a th:href="@{/common/about}" class="nav-link px-2 link-dark">[[#{menu.about}]]</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a th:href="@{/user/logout}" class="btn btn-outline-primary">[[#{menu.logout}]]</a>
+        </div>
+    </header>
+</div>
+
+<div class="container">
+    <main>
+        <div class="py-1 text-center">
+            <h2>[[#{checkout.header}]]</h2>
+            <p class="lead">[[#{checkout.subheader}]]</p>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">[[#{checkout.cars}]]</span>
+                    <!--/*@thymesVar id="order" type="com.taxi.dto.OrderDTO"*/-->
+                    <span th:text="${order.cars.size()}" class="badge bg-primary rounded-pill"></span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li th:each="car : ${order.cars}" class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 th:text="${car.model}" class="my-0"></h6>
+                            <small th:text="${car.plate}" class="text-muted"></small>
+                        </div>
+                        <span th:if="car.category == 0" class="text-muted">[[#{car.category.standard}]]</span>
+                        <span th:if="car.category == 1" class="text-muted">[[#{car.category.business}]]</span>
+                        <span th:if="car.category == 2" class="text-muted">[[#{car.category.luxury}]]</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>[[#{checkout.total}]]</span>
+                        <strong th:text="${'₴' + order.getCheckOutPrice()}"></strong>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">[[#{checkout.ride}]]</h4>
+                <form th:object="${order}" th:action="@{/order/checkout/save}" method="post" class="needs-validation"
+                      novalidate="">
+
+                    <input th:field="*{addressFrom}" th:value="*{addressFrom}" type="hidden">
+                    <input th:field="*{addressTo}" th:value="*{addressTo}" type="hidden">
+                    <input th:field="*{passengers}" th:value="*{passengers}" type="hidden">
+                    <input th:field="*{category}" th:value="*{category}" type="hidden">
+                    <input th:field="*{price}" th:value="*{price}" type="hidden">
+                    <input th:field="*{cars}" th:value="*{cars}" type="hidden">
+
+                    <div class="row g-3">
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 th:text="${order.addressFrom}"></h6>
+                                    <small class="text-muted">[[#{ride.from}]]</small>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 th:text="${order.addressTo}"></h6>
+                                    <small class="text-muted">[[#{ride.to}]]</small>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 th:text="${order.passengers}"></h6>
+                                    <small class="text-muted">[[#{ride.count}]]</small>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 th:if="${order.category == 0}">[[#{car.category.standard}]]</h6>
+                                    <h6 th:if="${order.category == 1}">[[#{car.category.business}]]</h6>
+                                    <h6 th:if="${order.category == 2}">[[#{car.category.luxury}]]</h6>
+                                    <small class="text-muted">[[#{ride.category}]]</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="w-half btn btn-primary btn-lg" name="action" value="submit" type="submit">[[#{checkout.checkout}]]</button>
+                    <button class="w-half btn btn-outline-primary btn-lg" name="action" value="change" type="submit">[[#{checkout.change}]]</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
+
+

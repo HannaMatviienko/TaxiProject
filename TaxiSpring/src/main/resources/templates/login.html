@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[[#{menu.login}]]</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 text-begin">
+            <a href="?lang=ua"
+               th:class="__${#locale}__=='en'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.ua}]]</a>
+            <a href="?lang=en"
+               th:class="__${#locale}__=='ua'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.en}]]</a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a th:href="@{/}" class="nav-link px-2 link-primary">[[#{menu.home}]]</a></li>
+            <li><a th:href="@{/common/service}" class="nav-link px-2 link-dark">[[#{menu.services}]]</a></li>
+            <li><a th:href="@{/common/price}" class="nav-link px-2 link-dark">[[#{menu.pricing}]]</a></li>
+            <li><a th:href="@{/common/about}" class="nav-link px-2 link-dark">[[#{menu.about}]]</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+        </div>
+    </header>
+</div>
+
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+            <img src="/images/taxi500.png" class="img-responsive" alt="Taxi"
+                 width="500" height="500">
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5">
+            <form method="post" class="needs-validation p-4 p-md-5 border rounded-3 bg-light" novalidate="">
+                <input th:name="*{_csrf.parameterName}"  th:value="*{_csrf.token}"  type="hidden">
+                <div class="panel-body">
+                    <div th:if="${error}" class="alert alert-danger" role="alert">[[#{login.error}]]</div>
+                    <div th:if="${logout}" class="alert alert-info" role="alert">[[#{login.logout}]]</div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="username" name="username" placeholder="1" required>
+                    <label for="username">[[#{login.email}]]</label>
+                    <div class="invalid-feedback">
+                        [[#{login.email.feedback}]]
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="1" required>
+                    <label for="password">[[#{login.password}]]</label>
+                    <div class="invalid-feedback">
+                        [[#{login.password.feedback}]]
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-lg w-auto btn-primary" type="submit">[[#{menu.login}]]</button>
+                    <a th:href="@{/user/signup}" class="btn btn-lg w-auto btn-outline-primary">[[#{menu.sign-up}]]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/taxi.js"></script>
+
+</body>
+</html>
+

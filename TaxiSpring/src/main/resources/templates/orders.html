@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[[#{admin.orders}]]</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/taxi.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 text-begin">
+            <a href="?lang=ua"
+               th:class="__${#locale}__=='en'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.ua}]]</a>
+            <a href="?lang=en"
+               th:class="__${#locale}__=='ua'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.en}]]</a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a th:href="@{/admin/orders}" class="nav-link px-2 link-primary">[[#{admin.orders}]]</a></li>
+            <li><a th:href="@{/admin/cars}" class="nav-link px-2 link-dark">[[#{admin.cars}]]</a></li>
+            <li><a th:href="@{/admin/users}" class="nav-link px-2 link-dark">[[#{admin.users}]]</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a th:href="@{/user/logout}" class="btn btn-outline-primary">[[#{menu.logout}]]</a>
+        </div>
+    </header>
+</div>
+
+<h1 class="text-center">[[#{admin.orders}]]</h1>
+
+<div class="container">
+    <form id="form" th:action="@{/admin/orders/search}" th:object="${report}" method="post" class="needs-validation" novalidate="">
+        <input th:field="*{pageCount}" type="hidden"  id="pageCount"/>
+        <input th:field="*{pageCurrent}" type="hidden"  id="pageCurrent"/>
+        <input th:field="*{pageSize}" type="hidden"  id="pageSize"/>
+        <input th:field="*{sort}" type="hidden"  id="sort"/>
+        <input th:field="*{sortDir}" type="hidden"  id="sortDir"/>
+
+        <div class="row">
+            <div class="col">
+                <label for="userId" class="form-label">[[#{admin.user}]]</label>
+                <select th:field="*{userId}" class="form-select" id="userId" name="userId" required="">
+                    <option value="0">[[#{admin.choose}]]...</option>
+                    <option th:each="user : ${users}" th:value="${user.id}" th:selected="${report.userId == user.id}"
+                            th:text="${user.firstName + ' ' + user.lastName}"></option>
+                </select>
+                <div class="invalid-feedback">
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="dateFrom" class="form-label">[[#{admin.date.from}]]</label>
+                <input th:field="*{dateFrom}" type="date" class="form-control" id="dateFrom" name="dateFrom"
+                       required=""/>
+                <div class="invalid-feedback">
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="dateTo" class="form-label">[[#{admin.date.to}]]</label>
+                <input th:field="*{dateTo}" type="date" class="form-control" id="dateTo" name="dateTo" required=""/>
+                <div class="invalid-feedback">
+                </div>
+            </div>
+
+            <div class="col-1 align-self-end">
+                <button class="btn btn-primary btn-lg" type="submit">[[#{admin.find}]]</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table mt-4">
+        <thead>
+        <tr>
+            <th style="width: 10%">
+                [[#{ride.date}]]
+                <a id="colDate" class="sort-link fa fa-fw" href="#"></a>
+            </th>
+            <th style="width: 25%">[[#{ride.from}]]</th>
+            <th style="width: 25%">[[#{ride.to}]]</th>
+            <th style="width: 10%">[[#{ride.category}]]</th>
+            <th style="width: 10%">[[#{ride.count}]]</th>
+            <th style="width: 10%">
+                [[#{ride.price}]]
+                <a id="colPrice" class="sort-link fa fa-fw" href="#"></a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.getDisplayDate()}"></td>
+            <td th:text="${order.addressFrom}"></td>
+            <td th:text="${order.addressTo}"></td>
+            <td th:if="${order.category == 0}">[[#{car.category.standard}]]</td>
+            <td th:if="${order.category == 1}">[[#{car.category.business}]]</td>
+            <td th:if="${order.category == 2}">[[#{car.category.luxury}]]</td>
+            <td th:text="${order.passengers}"></td>
+            <td th:text="${order.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <nav th:if="${report.pageCount > 1}">
+        <ul class="pagination justify-content-center">
+            <li th:if="${report.pageCurrent <= 1}" class="page-item disabled">
+                <a class="page-link" href="#back" tabindex="-1" aria-disabled="true">[[#{admin.back}]]</a>
+            </li>
+            <li th:if="${report.pageCurrent > 1}" class="page-item">
+                <a class="page-link" href="#back">[[#{admin.back}]]</a>
+            </li>
+
+            <li th:each="i : ${#numbers.sequence( 1, report.pageCount)}" th:class="${report.pageCurrent == i?'page-item active':'page-item'}" aria-current="page">
+                <span th:if="${report.pageCurrent == i}" class="page-link" th:text="${i}"></span>
+                <a th:if="${report.pageCurrent != i}" class="page-link" th:href="${'#' + i}" th:text="${i}"></a>
+            </li>
+
+            <li th:if="${report.pageCurrent < report.pageCount}" class="page-item">
+                <a class="page-link" href="#next">[[#{admin.next}]]</a>
+            </li>
+            <li th:if= "${report.pageCurrent >= report.pageCount}" class="page-item disabled">
+                <a class="page-link" href="#next" tabindex="-1" aria-disabled="true">[[#{admin.next}]]</a>
+            </li>
+        </ul>
+    </nav>
+
+    <a id="back"></a>
+    <a id="next"></a>
+
+    <script>
+        function RefreshView() {
+            let sort = document.getElementById('sort').getAttribute('value');
+            let sortDir = document.getElementById('sortDir').getAttribute('value');
+            let colDate = document.getElementById('colDate');
+            colDate.classList.remove("fa-sort-up");
+            colDate.classList.remove("fa-sort-down");
+            colDate.classList.remove("fa-sort");
+
+            let colPrice = document.getElementById('colPrice');
+            colPrice.classList.remove("fa-sort-up");
+            colPrice.classList.remove("fa-sort-down");
+            colPrice.classList.remove("fa-sort");
+
+            if (sort === 'orderDate') {
+                if (sortDir === 'DESC')
+                    colDate.classList.add("fa-sort-down");
+                else
+                    colDate.classList.add("fa-sort-up");
+            } else
+                colDate.classList.add("fa-sort");
+
+            if (sort === 'price') {
+                if (sortDir === 'DESC')
+                    colPrice.classList.add("fa-sort-down");
+                else
+                    colPrice.classList.add("fa-sort-up");
+            } else
+                colPrice.classList.add("fa-sort");
+        }
+
+        function SortListener(colName) {
+            let sort = document.getElementById('sort');
+            let sortDir = document.getElementById('sortDir');
+
+            if (sort.getAttribute('value') === colName) {
+                if (sortDir.getAttribute('value') === 'ASC')
+                    sortDir.setAttribute('value', 'DESC');
+                else
+                    sortDir.setAttribute('value', 'ASC');
+            } else {
+                sort.setAttribute('value', colName);
+                sortDir.setAttribute('value', 'DESC')
+            }
+            document.forms["form"].submit();
+        }
+
+        (function () {
+            'use strict'
+            let links = document.querySelectorAll('.page-link')
+            links.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    let href = event.target.getAttribute('href');
+                    if (href != null) {
+                        let pageElement = document.getElementById('pageCurrent');
+                        let pageCurrent = parseInt(pageElement.getAttribute('value'));
+
+                        let page = pageCurrent.toString();
+
+                        let buf = href.substr(1);
+                        if (buf === 'back' || buf === 'next')
+                        {
+                            let pageCount = parseInt(document.getElementById('pageCount').getAttribute('value'));
+                            if (buf === 'back' && pageCurrent > 1)
+                                page = (pageCurrent - 1).toString();
+                            else if (buf === 'next' && pageCurrent < pageCount)
+                                page = (pageCurrent + 1).toString();
+                        }
+                        else
+                            page = buf;
+                        pageElement.setAttribute('value', page);
+                        document.forms["form"].submit();
+                    }
+                });
+            });
+
+            RefreshView();
+
+            let colDate = document.getElementById('colDate');
+            colDate.addEventListener('click', function () {
+                SortListener('orderDate');
+            });
+
+            let colPrice = document.getElementById('colPrice');
+            colPrice.addEventListener('click', function () {
+                SortListener('price');
+            });
+        })()
+    </script>
+
+</div>
+</body>
+</html>

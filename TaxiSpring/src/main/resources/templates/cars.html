@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[[#{admin.cars}]]</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 text-begin">
+            <a href="?lang=ua"
+               th:class="__${#locale}__=='en'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.ua}]]</a>
+            <a href="?lang=en"
+               th:class="__${#locale}__=='ua'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.en}]]</a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a th:href="@{/admin/orders}" class="nav-link px-2 link-dark">[[#{admin.orders}]]</a></li>
+            <li><a th:href="@{/admin/cars}" class="nav-link px-2 link-primary">[[#{admin.cars}]]</a></li>
+            <li><a th:href="@{/admin/users}" class="nav-link px-2 link-dark">[[#{admin.users}]]</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a th:href="@{/admin/car/new}" class="btn btn-primary me-2">[[#{admin.car.new}]]</a>
+            <a th:href="@{/user/logout}" class="btn btn-outline-primary">[[#{menu.logout}]]</a>
+        </div>
+    </header>
+</div>
+
+<h1 class="text-center">[[#{admin.cars}]]</h1>
+
+<div class="container">
+    <table class="table mt-4">
+        <thead>
+        <tr>
+            <th style="width: 20%">[[#{admin.car.model}]]</th>
+            <th style="width: 20%">[[#{admin.car.plate}]]</th>
+            <th style="width: 20%">[[#{ride.category}]]</th>
+            <th style="width: 20%">[[#{ride.count}]]</th>
+            <th style="width: 20%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.model}"></td>
+            <td th:text="${car.plate}"></td>
+            <td>
+                <a th:if="${car.category} == 0">[[#{car.category.standard}]]</a>
+                <a th:if="${car.category} == 1">[[#{car.category.business}]]</a>
+                <a th:if="${car.category} == 2">[[#{car.category.luxury}]]</a>
+            </td>
+            <td th:text="${car.passengers}"></td>
+            <td class="text-end">
+                <a th:href="@{/admin/car/edit/{id}(id=${car.id})}" class="btn btn-sm btn-outline-primary me-2">[[#{admin.edit}]]</a>
+                <a th:href="@{/admin/car/del/{id}(id=${car.id})}" class="btn btn-sm btn-outline-primary">[[#{admin.delete}]]</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

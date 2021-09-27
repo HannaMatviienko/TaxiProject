@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[[#{home.title}]]</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 text-begin">
+            <a href="?lang=ua"
+               th:class="__${#locale}__=='en'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.ua}]]</a>
+            <a href="?lang=en"
+               th:class="__${#locale}__=='ua'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.en}]]</a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-primary">[[#{menu.home}]]</a></li>
+            <li><a th:href="@{/common/service}" class="nav-link px-2 link-dark">[[#{menu.services}]]</a></li>
+            <li><a th:href="@{/common/price}" class="nav-link px-2 link-dark">[[#{menu.pricing}]]</a></li>
+            <li><a th:href="@{/common/about}" class="nav-link px-2 link-dark">[[#{menu.about}]]</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a th:href="@{/user/login}" class="btn btn-outline-primary me-2">[[#{menu.login}]]</a>
+            <a th:href="@{/user/signup}" class="btn btn-primary">[[#{menu.sign-up}]]</a>
+        </div>
+    </header>
+</div>
+
+<div class="col-sm-12 text-center">
+    <img src="/images/taxi.png" class="img-responsive" alt="Taxi" width="800" height="800">
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:if="${mode == 0}">[[#{admin.user.new}]]</title>
+    <title th:if="${mode == 1}">[[#{admin.user.edit}]]</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/taxi.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 text-begin">
+            <a href="?lang=ua"
+               th:class="__${#locale}__=='en'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.ua}]]</a>
+            <a href="?lang=en"
+               th:class="__${#locale}__=='ua'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.en}]]</a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a th:href="@{/admin/orders}" class="nav-link px-2 link-dark">[[#{admin.orders}]]</a></li>
+            <li><a th:href="@{/admin/cars}" class="nav-link px-2 link-dark">[[#{admin.cars}]]</a></li>
+            <li><a th:href="@{/admin/users}" class="nav-link px-2 link-primary">[[#{admin.users}]]</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a th:href="@{/user/logout}" class="btn btn-outline-primary">[[#{menu.logout}]]</a>
+        </div>
+    </header>
+</div>
+
+<div class="container col-xxl-5 py-3">
+    <div>
+        <form th:action="@{/admin/user/save}" th:object="${user}" method="post" class="needs-validation" novalidate="">
+
+            <input th:field="*{id}" type="hidden" name="id">
+            <input th:field="*{enabled}" type="hidden" name="enabled">
+
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label for="firstName" class="form-label">[[#{signin.firstname}]]</label>
+                    <input th:field="*{firstName}" type="text" class="form-control" id="firstName" name="firstName"  required>
+                    <div class="invalid-feedback">
+                        [[#{signin.firstname.feedback}]]
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="lastName" class="form-label">[[#{signin.lastname}]]</label>
+                    <input th:field="*{lastName}" type="text" class="form-control" id="lastName" name="lastName" required>
+                    <div class="invalid-feedback">
+                        [[#{signin.lastname.feedback}]]
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="roles" class="form-label">[[#{admin.roles}]]</label>
+                    <select th:field="*{roles}" class="form-select" id="roles" name="roles">
+                        <option th:selected="${user.roles == 'ROLE_ADMIN'}" value="ROLE_ADMIN">[[#{admin.admin}]]</option>
+                        <option th:selected="${user.roles == 'ROLE_USER'}" value="ROLE_USER">[[#{admin.user}]]</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label for="password" class="form-label">[[#{login.password}]]</label>
+                    <div class="input-group has-validation">
+                        <input th:field="*{password}" type="password" class="form-control" id="password" name="password" required>
+                        <div class="invalid-feedback">
+                            [[#{login.password.feedback}]]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="email" class="form-label">[[#{login.email}]]</label>
+                    <input th:field="*{email}" type="email" class="form-control" id="email" name="email" required>
+                    <div class="invalid-feedback">
+                        [[#{login.email.feedback}]]
+                    </div>
+                </div>
+            </div>
+
+            <button class="w-half btn btn-primary btn-lg mt-5" type="submit">[[#{admin.save}]]</button>
+            <a class="w-half btn btn-outline-primary btn-lg mt-5" th:href="@{/admin/users}" >[[#{admin.cancel}]]</a>
+        </form>
+    </div>
+</div>
+
+<script src="/js/taxi.js"></script>
+
+</body>
+</html>

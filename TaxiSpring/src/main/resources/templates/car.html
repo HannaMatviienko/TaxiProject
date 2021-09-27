@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:if="${mode == 0}">[[#{admin.car.new}]]</title>
+    <title th:if="${mode == 1}">[[#{admin.car.edit}]]</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/taxi.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 text-begin">
+            <a href="?lang=ua"
+               th:class="__${#locale}__=='en'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.ua}]]</a>
+            <a href="?lang=en"
+               th:class="__${#locale}__=='ua'?'btn-outline-secondary btn btn-sm':'btn-outline-primary btn btn-sm'">[[#{lang.en}]]</a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a th:href="@{/admin/orders}" class="nav-link px-2 link-dark">[[#{admin.orders}]]</a></li>
+            <li><a th:href="@{/admin/cars}" class="nav-link px-2 link-primary">[[#{admin.cars}]]</a></li>
+            <li><a th:href="@{/admin/users}" class="nav-link px-2 link-dark">[[#{admin.users}]]</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a th:href="@{/user/logout}" class="btn btn-outline-primary">[[#{menu.logout}]]</a>
+        </div>
+    </header>
+</div>
+
+<div class="container col-xxl-5 py-3">
+    <div>
+        <form th:action="@{/admin/car/save}" th:object="${car}" method="post" class="needs-validation" novalidate="">
+
+            <input th:field="*{id}" type="hidden" name="id">
+            <input th:field="*{status}" type="hidden" name="enabled">
+
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label for="model" class="form-label">[[#{admin.car.model}]]</label>
+                    <input th:field="*{model}" type="text" class="form-control" id="model" name="model"  required>
+                    <div class="invalid-feedback">
+                        [[#{admin.car.model.feedback}]]
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="plate" class="form-label">[[#{admin.car.plate}]]</label>
+                    <input th:field="*{plate}" type="text" class="form-control" id="plate" name="plate" required>
+                    <div class="invalid-feedback">
+                        [[#{admin.car.plate.feedback}]]
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="category" class="form-label">[[#{ride.category}]]</label>
+                    <select th:field="*{category}" class="form-select" id="category" name="category">
+                        <option th:selected="${car.category == 0}" value="0">[[#{car.category.standard}]]</option>
+                        <option th:selected="${car.category == 1}" value="1">[[#{car.category.business}]]</option>
+                        <option th:selected="${car.category == 2}" value="2">[[#{car.category.luxury}]]</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label for="passengers" class="form-label">[[#{ride.count}]]</label>
+                    <input th:field="*{passengers}" type="number" class="form-control" id="passengers" name="passengers" required>
+                    <div class="invalid-feedback">
+                        [[#{ride.count.feedback}]]
+                    </div>
+                </div>
+            </div>
+
+            <button class="w-half btn btn-primary btn-lg mt-5" type="submit">[[#{admin.save}]]</button>
+            <a class="w-half btn btn-outline-primary btn-lg mt-5" th:href="@{/admin/users}" >[[#{admin.cancel}]]</a>
+        </form>
+    </div>
+</div>
+
+<script src="/js/taxi.js"></script>
+
+</body>
+</html>
