@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -58,7 +57,7 @@ class LogInCommandTest {
         LogInCommand command = new LogInCommand();
         String page = command.execute(mockRequest, null);
 
-        verify(mockRequest).setAttribute("username", user.getLogin());
+        verify(mockRequest).setAttribute("username", user.getEmail());
         verify(mockSession).setAttribute("user", user);
 
         Assertions.assertEquals("redirect:admin/orders", page);
@@ -74,7 +73,7 @@ class LogInCommandTest {
         LogInCommand command = new LogInCommand();
         String page = command.execute(mockRequest, null);
 
-        verify(mockRequest).setAttribute("username", user.getLogin());
+        verify(mockRequest).setAttribute("username", user.getEmail());
         verify(mockSession).setAttribute("user", user);
 
         Assertions.assertEquals("redirect:order", page);

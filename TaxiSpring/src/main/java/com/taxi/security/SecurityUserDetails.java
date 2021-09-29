@@ -18,7 +18,7 @@ public class SecurityUserDetails implements UserDetails {
     private final List<GrantedAuthority> authorities;
 
     public SecurityUserDetails(UserDTO user) {
-        this.userName = user.getUserName();
+        this.userName = user.getEmail();
         this.password = user.getPassword();
         this.enabled = user.isEnabled();
         this.authorities = Arrays.stream(user.getRoles().split(","))

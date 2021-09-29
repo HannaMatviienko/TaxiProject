@@ -97,7 +97,6 @@ public class OrderDAO {
         if (id > 0)
             statement.setInt(3, id);
 
-        List<Order> orderList = new ArrayList<>();
         ResultSet result = statement.executeQuery();
 
         int cn = 0;

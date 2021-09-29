@@ -22,7 +22,7 @@ public class TaxiController {
     @GetMapping("/")
     public String getHome() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO user = userService.findUserByUserName(auth.getName());
+        UserDTO user = userService.findUserByEmail(auth.getName());
         if (user == null)
             return "index";
         else {
@@ -40,7 +40,7 @@ public class TaxiController {
     @GetMapping("/common/service")
     public String getService(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO user = userService.findUserByUserName(auth.getName());
+        UserDTO user = userService.findUserByEmail(auth.getName());
         model.addAttribute("user", user != null);
         return "common_service";
     }
@@ -48,7 +48,7 @@ public class TaxiController {
     @GetMapping("/common/price")
     public String getPrice(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO user = userService.findUserByUserName(auth.getName());
+        UserDTO user = userService.findUserByEmail(auth.getName());
         model.addAttribute("user", user != null);
         return "common_price";
     }
@@ -56,7 +56,7 @@ public class TaxiController {
     @GetMapping("/common/about")
     public String getAbout(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO user = userService.findUserByUserName(auth.getName());
+        UserDTO user = userService.findUserByEmail(auth.getName());
         model.addAttribute("user", user != null);
         return "common_about";
     }

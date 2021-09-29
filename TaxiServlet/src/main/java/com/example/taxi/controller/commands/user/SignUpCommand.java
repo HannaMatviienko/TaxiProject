@@ -20,16 +20,15 @@ public class SignUpCommand implements Command {
         {
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
-            String userName = request.getParameter("userName");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
             try {
-                User user = DAOFactory.getUser().newUser(firstName, lastName, userName, email, password);
+                User user = DAOFactory.getUser().newUser(firstName, lastName, email, password);
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    request.setAttribute("username", user.getLogin());
+                    request.setAttribute("username", user.getEmail());
                     return "redirect:/order";
                 } else {
                     String message = "Invalid email/password";
@@ -37,7 +36,6 @@ public class SignUpCommand implements Command {
 
                     request.setAttribute("firstName", firstName);
                     request.setAttribute("lastName", lastName);
-                    request.setAttribute("userName", userName);
                     request.setAttribute("email", email);
                     request.setAttribute("password", password);
                     return "/WEB-INF/jsp/signup.jsp";

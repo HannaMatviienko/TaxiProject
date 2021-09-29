@@ -30,13 +30,6 @@ class UserDTOTest {
     }
 
     @Test
-    void getUserName() {
-        UserDTO cat = new UserDTO();
-        cat.setUserName(stringVal);
-        Assertions.assertEquals(stringVal, cat.getUserName());
-    }
-
-    @Test
     void getFirstName() {
         UserDTO cat = new UserDTO();
         cat.setFirstName(stringVal);

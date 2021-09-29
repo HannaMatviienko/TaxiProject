@@ -9,7 +9,6 @@ public class User {
         role = ROLE.GUEST;
         firstName = "";
         lastName = "";
-        login = "";
         email = "";
         password = "";
     }
@@ -37,12 +36,7 @@ public class User {
             return false;
         if (!Objects.equals(this.lastName, other.lastName))
             return false;
-        if (!Objects.equals(this.login, other.login))
-            return false;
-        if (!Objects.equals(this.email, other.email))
-            return false;
-
-        return true;
+        return Objects.equals(this.email, other.email);
     }
 
 
@@ -76,14 +70,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getEmail() {
@@ -139,8 +125,6 @@ public class User {
     private String firstName;
 
     private String lastName;
-
-    private String login;
 
     private String email;
 

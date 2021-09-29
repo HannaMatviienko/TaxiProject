@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SignUpCommandTest {
@@ -34,7 +33,6 @@ class SignUpCommandTest {
         user = new User();
         when(mockRequest.getParameter("firstName")).thenReturn(user.getFirstName());
         when(mockRequest.getParameter("lastName")).thenReturn(user.getLastName());
-        when(mockRequest.getParameter("userName")).thenReturn(user.getLogin());
         when(mockRequest.getParameter("email")).thenReturn(user.getEmail());
         when(mockRequest.getParameter("password")).thenReturn(user.getPassword());
     }
@@ -52,13 +50,13 @@ class SignUpCommandTest {
     @Test
     void executePost() throws ServletException, SQLException, ClassNotFoundException {
         when(mockRequest.getMethod()).thenReturn("POST");
-        when(mockDAO.newUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getEmail(), user.getPassword())).thenReturn(user);
+        when(mockDAO.newUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword())).thenReturn(user);
         when(mockRequest.getSession()).thenReturn(mockSession);
 
         SignUpCommand command = new SignUpCommand();
         String page = command.execute(mockRequest, null);
 
-        verify(mockRequest).setAttribute("username", user.getLogin());
+        verify(mockRequest).setAttribute("username", user.getEmail());
         verify(mockSession).setAttribute("user", user);
 
         Assertions.assertEquals("redirect:/order", page);
@@ -67,7 +65,7 @@ class SignUpCommandTest {
     @Test
     void executePostNoUser() throws ServletException, SQLException, ClassNotFoundException {
         when(mockRequest.getMethod()).thenReturn("POST");
-        when(mockDAO.newUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getEmail(), user.getPassword())).thenReturn(null);
+        when(mockDAO.newUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword())).thenReturn(null);
         when(mockRequest.getSession()).thenReturn(mockSession);
 
         SignUpCommand command = new SignUpCommand();
@@ -77,7 +75,6 @@ class SignUpCommandTest {
         verify(mockRequest).setAttribute("message", message);
         verify(mockRequest).setAttribute("firstName", user.getFirstName());
         verify(mockRequest).setAttribute("lastName", user.getLastName());
-        verify(mockRequest).setAttribute("userName", user.getLogin());
         verify(mockRequest).setAttribute("email", user.getEmail());
         verify(mockRequest).setAttribute("password", user.getPassword());
 
@@ -90,7 +87,7 @@ class SignUpCommandTest {
         when(mockRequest.getMethod()).thenReturn("POST");
 
         String message = "Error";
-        doThrow(new SQLException(message)).when(mockDAO).newUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getEmail(), user.getPassword());
+        doThrow(new SQLException(message)).when(mockDAO).newUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
 
         ServletException ex  = Assertions.assertThrows(ServletException.class, () -> {
             SignUpCommand command = new SignUpCommand();
@@ -105,7 +102,7 @@ class SignUpCommandTest {
         when(mockRequest.getMethod()).thenReturn("POST");
 
         String message = "Error";
-        doThrow(new ClassNotFoundException(message)).when(mockDAO).newUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getEmail(), user.getPassword());
+        doThrow(new ClassNotFoundException(message)).when(mockDAO).newUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
 
         ServletException ex  = Assertions.assertThrows(ServletException.class, () -> {
             SignUpCommand command = new SignUpCommand();

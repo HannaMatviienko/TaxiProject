@@ -39,7 +39,7 @@ public class OrdersController {
     @GetMapping("/order")
     public String getOrder(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO user = userService.findUserByUserName(auth.getName());
+        UserDTO user = userService.findUserByEmail(auth.getName());
         if (Objects.equals(user.getRoles(), "ROLE_ADMIN")) {
             return "redirect:/admin/orders";
         } else {
@@ -63,7 +63,7 @@ public class OrdersController {
         String action = request.getParameter("action");
         if (Objects.equals(action, "submit")) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDTO user = userService.findUserByUserName(auth.getName());
+            UserDTO user = userService.findUserByEmail(auth.getName());
             order.setUser(user);
             order.setOrderDate(new Date());
             orderService.save(order);

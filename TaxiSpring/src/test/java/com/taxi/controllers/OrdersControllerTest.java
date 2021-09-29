@@ -41,7 +41,7 @@ class OrdersControllerTest {
 
     @Test
     void getOrder() {
-        String userName = "user";
+        String email = "email";
         UserDTO user = new UserDTO();
         user.setRoles("ROLE_ADMIN");
 
@@ -49,8 +49,8 @@ class OrdersControllerTest {
         SecurityContext mockSecurityContext = mock(SecurityContext.class);
 
         when(mockSecurityContext.getAuthentication()).thenReturn(mockAuth);
-        when(mockAuth.getName()).thenReturn(userName);
-        when(mockUserService.findUserByUserName(userName)).thenReturn(user);
+        when(mockAuth.getName()).thenReturn(email);
+        when(mockUserService.findUserByEmail(email)).thenReturn(user);
 
         try (MockedStatic<SecurityContextHolder> mockContext = Mockito.mockStatic(SecurityContextHolder.class)) {
             mockContext.when(SecurityContextHolder::getContext)
@@ -63,7 +63,7 @@ class OrdersControllerTest {
 
     @Test
     void getOrderUser() {
-        String userName = "user";
+        String email = "email";
         UserDTO user = new UserDTO();
         user.setRoles("ROLE_USER");
 
@@ -72,8 +72,8 @@ class OrdersControllerTest {
         HttpServletRequest mockRequest = mock(HttpServletRequest.class);
 
         when(mockSecurityContext.getAuthentication()).thenReturn(mockAuth);
-        when(mockAuth.getName()).thenReturn(userName);
-        when(mockUserService.findUserByUserName(userName)).thenReturn(user);
+        when(mockAuth.getName()).thenReturn(email);
+        when(mockUserService.findUserByEmail(email)).thenReturn(user);
 
         try (MockedStatic<SecurityContextHolder> mockContext = Mockito.mockStatic(SecurityContextHolder.class)) {
             mockContext.when(SecurityContextHolder::getContext)
@@ -127,7 +127,7 @@ class OrdersControllerTest {
         HttpServletRequest mockRequest = mock(HttpServletRequest.class);
         when(mockRequest.getParameter("action")).thenReturn("submit");
 
-        String userName = "user";
+        String email = "email";
         UserDTO user = new UserDTO();
         user.setRoles("ROLE_USER");
 
@@ -135,8 +135,8 @@ class OrdersControllerTest {
         SecurityContext mockSecurityContext = mock(SecurityContext.class);
 
         when(mockSecurityContext.getAuthentication()).thenReturn(mockAuth);
-        when(mockAuth.getName()).thenReturn(userName);
-        when(mockUserService.findUserByUserName(userName)).thenReturn(user);
+        when(mockAuth.getName()).thenReturn(email);
+        when(mockUserService.findUserByEmail(email)).thenReturn(user);
 
         try (MockedStatic<SecurityContextHolder> mockContext = Mockito.mockStatic(SecurityContextHolder.class)) {
             mockContext.when(SecurityContextHolder::getContext)

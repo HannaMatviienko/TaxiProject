@@ -42,24 +42,21 @@ public class SecurityFilter implements Filter {
     }
 
     private boolean isAccessOpen(User.ROLE role, String path) {
-        return true;
+        boolean isAccessOpen = path.matches("(/index.jsp)|(/resources.*)");
+        if (isAccessOpen) return true;
 
+        if(role == User.ROLE.GUEST || role == User.ROLE.USER || role == User.ROLE.ADMIN)
+            isAccessOpen = path.matches("(/user/(signup|login|logout))");
+        if (isAccessOpen) return true;
 
-//        boolean isAccessOpen = path.matches("(/index.jsp)|(/resources.*)");
-//        if (isAccessOpen) return true;
-//
-//        if(role == User.ROLE.GUEST || role == User.ROLE.USER || role == User.ROLE.ADMIN)
-//            isAccessOpen = path.matches("(/user/(signup|login|logout))");
-//        if (isAccessOpen) return true;
-//
-//        if (role == User.ROLE.USER || role == User.ROLE.ADMIN)
-//            isAccessOpen = path.matches("(/order.*)");
-//        if (isAccessOpen) return true;
-//
-//        if (role == User.ROLE.ADMIN)
-//            isAccessOpen = path.matches("(/admin.*)");
-//
-//        return isAccessOpen;
+        if (role == User.ROLE.USER || role == User.ROLE.ADMIN)
+            isAccessOpen = path.matches("(/order.*)");
+        if (isAccessOpen) return true;
+
+        if (role == User.ROLE.ADMIN)
+            isAccessOpen = path.matches("(/admin.*)");
+
+        return isAccessOpen;
     }
 
     public void destroy() {

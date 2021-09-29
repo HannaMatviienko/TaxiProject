@@ -1,8 +1,6 @@
 package com.example.taxi.model.dao;
 
 import com.example.taxi.model.entity.Car;
-import com.example.taxi.model.entity.Order;
-import com.example.taxi.model.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

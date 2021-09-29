@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface UserRepository  extends CrudRepository<UserDTO, Integer> {
     Long countById(Integer id);
-    Optional<UserDTO> findByUserName(String userName);
+    Optional<UserDTO> findByEmail(String email);
     List<UserDTO> findByRoles(String roles);
 }

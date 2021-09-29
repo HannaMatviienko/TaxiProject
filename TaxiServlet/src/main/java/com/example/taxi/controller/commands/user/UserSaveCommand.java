@@ -21,7 +21,6 @@ public class UserSaveCommand implements Command {
             user.setPassword(new PBKDF2Hasher().hash(request.getParameter("password").toCharArray()));
             user.setRole(User.ROLE.parseRole(request.getParameter("roles")));
             user.setEmail(request.getParameter("email"));
-            user.setLogin(user.getEmail());
             DAOFactory.getUser().save(user);
             return "redirect:/admin/users";
         } catch (SQLException | ClassNotFoundException | NumberFormatException ex) {

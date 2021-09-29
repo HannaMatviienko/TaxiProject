@@ -21,8 +21,8 @@ public class UsersController {
 
     @RequestMapping("/user/login")
     public String loginUser(@RequestParam(value = "error", required = false) String error,
-                           @RequestParam(value = "logout", required = false) String logout,
-                           Model model) {
+                            @RequestParam(value = "logout", required = false) String logout,
+                            Model model) {
         model.addAttribute("error", error != null);
         model.addAttribute("logout", logout != null);
         return "login";
@@ -52,7 +52,6 @@ public class UsersController {
 
     @PostMapping("/admin/user/save")
     public String saveUser(UserDTO user) {
-        user.setUserName(user.getEmail());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
         return "redirect:/admin/users";

@@ -23,7 +23,7 @@ public class LogInCommand implements Command {
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    request.setAttribute("username", user.getLogin());
+                    request.setAttribute("username", user.getEmail());
 
                     if (user.getRole() == User.ROLE.ADMIN)
                         return "redirect:admin/orders";

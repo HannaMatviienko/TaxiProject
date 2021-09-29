@@ -19,8 +19,8 @@ public class UserService {
         this.repo = repo;
     }
 
-    public UserDTO findUserByUserName(String userName) {
-        return repo.findByUserName(userName).orElse(null);
+    public UserDTO findUserByEmail(String email) {
+        return repo.findByEmail(email).orElse(null);
     }
 
     public UserDTO findUserById(int id) {

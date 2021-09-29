@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class UserDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +21,6 @@ public class UserDTO {
     @Column(nullable = false)
     private String password;
 
-    @Column(length = 64, nullable = false)
-    private String userName;
-
     @Column(length = 45, nullable = false, name = "first_name")
     private String firstName;
 
@@ -34,4 +30,10 @@ public class UserDTO {
     private boolean enabled;
 
     private String roles;
+
+    @Override
+    public String toString()
+    {
+        return firstName + ' ' + lastName;
+    }
 }
