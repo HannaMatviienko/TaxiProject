@@ -112,7 +112,6 @@ public class OrdersController {
 
     @PostMapping("/admin/orders/search")
     public String searchOrders(Report report, RedirectAttributes ra) {
-        System.out.println("report:" + report);
         ra.addFlashAttribute("report", report);
         return "redirect:/admin/orders";
     }

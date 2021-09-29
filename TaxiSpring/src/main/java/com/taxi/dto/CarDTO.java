@@ -7,8 +7,8 @@ import lombok.*;
 @Table(name = "cars")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @ToString
 public class CarDTO {

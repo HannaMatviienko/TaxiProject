@@ -48,7 +48,6 @@ public class CarsController {
             model.addAttribute("car", car);
             model.addAttribute("mode", 1);
         } catch (CarNotFoundException ignored) {
-
         }
         return "car";
     }
@@ -58,7 +57,6 @@ public class CarsController {
         try {
             carService.delete(id);
         } catch (CarNotFoundException ignored) {
-
         }
         return "redirect:/admin/cars";
     }
