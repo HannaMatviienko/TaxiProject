@@ -81,8 +81,9 @@
                 [[#{ride.date}]]
                 <a id="colDate" class="sort-link fa fa-fw" href="#"></a>
             </th>
-            <th style="width: 25%">[[#{ride.from}]]</th>
-            <th style="width: 25%">[[#{ride.to}]]</th>
+            <th style="width: 20%">[[#{admin.user}]]</th>
+            <th style="width: 20%">[[#{ride.from}]]</th>
+            <th style="width: 20%">[[#{ride.to}]]</th>
             <th style="width: 10%">[[#{ride.category}]]</th>
             <th style="width: 10%">[[#{ride.count}]]</th>
             <th style="width: 10%">
@@ -94,6 +95,7 @@
         <tbody>
         <tr th:each="order : ${orders}">
             <td th:text="${order.getDisplayDate()}"></td>
+            <td th:text="${order.user}"></td>
             <td th:text="${order.addressFrom}"></td>
             <td th:text="${order.addressTo}"></td>
             <td th:if="${order.category == 0}">[[#{car.category.standard}]]</td>

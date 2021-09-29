@@ -150,7 +150,7 @@ public class UserDAO {
         Connection connection = ConnectionPool.getConnection();
         String sql;
         if (user.getId() == -1)
-            sql = "INSERT INTO users (email, enabled, first_name, last_name, password, roles) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO users (email, enabled, first_name, last_name, password, roles) VALUES (?, ?, ?, ?, ?, ?)";
         else
             sql = "UPDATE users SET email = ?, enabled = ?, first_name = ?, last_name = ?, password = ?, roles = ? WHERE id = ?";
 

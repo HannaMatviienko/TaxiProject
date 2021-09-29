@@ -78,7 +78,7 @@
 
                 <div class="col-12">
                     <label for="category" class="form-label"><fmt:message key="ride.category"/></label>
-                    <select value="${car.category}" class="form-select" id="category" name="category">
+                    <select class="form-select" id="category" name="category">
                         <option ${car.category == 0 ? "selected" : ""} value="0"><fmt:message key="car.category.standard"/></option>
                         <option ${car.category == 1 ? "selected" : ""} value="1"><fmt:message key="car.category.business"/></option>
                         <option ${car.category == 2 ? "selected" : ""} value="2"><fmt:message key="car.category.luxury"/></option>

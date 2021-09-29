@@ -33,8 +33,8 @@ class CarDeleteCommandTest {
 
     @Test
     void execute() throws ServletException, SQLException, ClassNotFoundException {
-        CarDeleteCommand command = new CarDeleteCommand();
-        String page = command.execute(mockRequest, null);
+        CarDeleteCommand cut = new CarDeleteCommand();
+        String page = cut.execute(mockRequest, null);
 
         verify(mockDAO).delete(id);
         Assertions.assertEquals("redirect:/admin/cars", page);
@@ -46,8 +46,8 @@ class CarDeleteCommandTest {
         doThrow(new SQLException(message)).when(mockDAO).delete(id);
 
         ServletException ex  = Assertions.assertThrows(ServletException.class, () -> {
-            CarDeleteCommand command = new CarDeleteCommand();
-            command.execute(mockRequest, null);
+            CarDeleteCommand cut = new CarDeleteCommand();
+            cut.execute(mockRequest, null);
         });
         Assertions.assertEquals(SQLException.class.getName() + ": " + message, ex.getMessage());
     }
@@ -58,8 +58,8 @@ class CarDeleteCommandTest {
         doThrow(new ClassNotFoundException(message)).when(mockDAO).delete(id);
 
         ServletException ex  = Assertions.assertThrows(ServletException.class, () -> {
-            CarDeleteCommand command = new CarDeleteCommand();
-            command.execute(mockRequest, null);
+            CarDeleteCommand cut = new CarDeleteCommand();
+            cut.execute(mockRequest, null);
         });
 
         Assertions.assertEquals(ClassNotFoundException.class.getName() + ": " + message, ex.getMessage());
@@ -69,8 +69,8 @@ class CarDeleteCommandTest {
     void executeExceptionNumberFormat() {
         when(mockRequest.getParameter("id")).thenReturn("");
         Assertions.assertThrows(ServletException.class, () -> {
-            CarDeleteCommand command = new CarDeleteCommand();
-            command.execute(mockRequest, null);
+            CarDeleteCommand cut = new CarDeleteCommand();
+            cut.execute(mockRequest, null);
         });
     }
 }

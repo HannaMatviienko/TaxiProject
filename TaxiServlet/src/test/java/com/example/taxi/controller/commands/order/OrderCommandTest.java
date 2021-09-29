@@ -25,13 +25,12 @@ import static org.mockito.Mockito.verify;
 class OrderCommandTest {
     private HttpServletRequest mockRequest;
     private HttpSession mockSession;
-    private OrderDAO mockDAO;
 
     @BeforeEach
     void setUp() {
         mockRequest = mock(HttpServletRequest.class);
         mockSession = mock(HttpSession.class);
-        mockDAO = mock(OrderDAO.class);
+        OrderDAO mockDAO = mock(OrderDAO.class);
         DAOFactory.setOrder(mockDAO);
     }
 
@@ -56,7 +55,6 @@ class OrderCommandTest {
 
     @Test
     void executeGetNoOrder() throws ServletException {
-        Order order = new Order();
         User user = new User();
 
         when(mockRequest.getMethod()).thenReturn("GET");
@@ -92,7 +90,7 @@ class OrderCommandTest {
         when(mockRequest.getParameter("category")).thenReturn(String.valueOf(category));
 
         AtomicReference<Order> mockOrder = new AtomicReference<>();
-        try (MockedConstruction<Order> mocked = Mockito.mockConstruction(Order.class,
+        try (MockedConstruction<Order> ignored = Mockito.mockConstruction(Order.class,
                 (mock, context) -> {
                     when(mock.getCars()).thenReturn(list);
                     mockOrder.set(mock);
@@ -130,7 +128,7 @@ class OrderCommandTest {
         when(mockRequest.getParameter("category")).thenReturn(String.valueOf(category));
 
         AtomicReference<Order> mockOrder = new AtomicReference<>();
-        try (MockedConstruction<Order> mocked = Mockito.mockConstruction(Order.class,
+        try (MockedConstruction<Order> ignored = Mockito.mockConstruction(Order.class,
                 (mock, context) -> {
                     when(mock.getCars()).thenReturn(list);
                     mockOrder.set(mock);

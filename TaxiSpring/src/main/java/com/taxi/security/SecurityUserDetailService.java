@@ -23,6 +23,6 @@ public class SecurityUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Optional<UserDTO> user = userRepository.findByEmail(userName);
         user.orElseThrow(() -> new UsernameNotFoundException("Nor found: " + userName));
-        return user.map(SecurityUserDetails::new).get();
+        return new SecurityUserDetails(user.get());
     }
 }
